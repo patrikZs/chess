@@ -9,6 +9,7 @@ namespace chess
         public static List<string> memory;
         public static int indexOfMemory;
         public static List<string> coordMemory;
+        public static List<bool> enPassant;
         static void Main(string[] args)
         {
             string[,] board = new string[8, 8];
@@ -24,6 +25,7 @@ namespace chess
             memory = new List<string>();
             indexOfMemory = -1;
             coordMemory = new List<string>();
+            enPassant = new List<bool>();
 
             while (ongoing)
             {
@@ -85,7 +87,7 @@ namespace chess
             bool[] castlingRightsCopy = new bool[4]; for (int i = 0; i < 4; i++) { castlingRightsCopy[i] = true; }
             for (int i = 0; i < indexOfMemory + 1 && i < coordMemory.Count; i++)
             {
-                MakeMove(ref boardCopy, ref castlingRightsCopy, coordMemory[i], whiteToMoveCopy, true);
+                MakeMove(ref boardCopy, ref castlingRightsCopy, coordMemory[i], whiteToMoveCopy, true, enPassant[i]);
                 if (whiteToMoveCopy)
                 {
                     whiteToMoveCopy = false;
@@ -421,7 +423,7 @@ namespace chess
                         testBoard[h, j] = board[h, j];
                     }
                 }
-                MakeMove(ref testBoard, ref castlingCopy, moveCoords[i], whiteToMove, false);
+                MakeMove(ref testBoard, ref castlingCopy, moveCoords[i], whiteToMove, false, false);
                 if (!KingIsSafe(testBoard, !whiteToMove, 0, 0, 0, 0))
                 {
                     legalMove[i] = legalMove[i] + "+";
@@ -500,9 +502,25 @@ namespace chess
                     }
                     memory.Add(userInput);
                     coordMemory.Add(moveCoords[legalMove.IndexOf(userInput)]);
+                    bool noEP = true;
+                    if (!moveCoords[legalMove.IndexOf(userInput)].Contains("Castle") && !(moveCoords[legalMove.IndexOf(userInput)][0] == 'Q' || moveCoords[legalMove.IndexOf(userInput)][0] == 'R' || moveCoords[legalMove.IndexOf(userInput)][0] == 'B' || moveCoords[legalMove.IndexOf(userInput)][0] == 'N'))
+                    {
+                        if (board[Convert.ToInt32(moveCoords[legalMove.IndexOf(userInput)][2].ToString()), Convert.ToInt32(moveCoords[legalMove.IndexOf(userInput)][3].ToString())] != null)
+                        {
+                            if (board[Convert.ToInt32(moveCoords[legalMove.IndexOf(userInput)][2].ToString()), Convert.ToInt32(moveCoords[legalMove.IndexOf(userInput)][3].ToString())].Contains("ep"))
+                            {
+                                enPassant.Add(true);
+                                noEP = false;
+                            }
+                        }
+                    }
+                    if (noEP)
+                    {
+                        enPassant.Add(false);
+                    }
                     indexOfMemory = memory.Count - 1;
 
-                    MakeMove(ref board, ref castlingRights, moveCoords[legalMove.IndexOf(userInput)], whiteToMove, false);
+                    MakeMove(ref board, ref castlingRights, moveCoords[legalMove.IndexOf(userInput)], whiteToMove, false, false);
                     if (whiteToMove)
                     {
                         whiteToMove = false;
@@ -613,8 +631,26 @@ namespace chess
             return safe;
         }
 
-        static void MakeMove(ref string[,] board, ref bool[] castlingRights, string move, bool whiteToMove, bool fromMemory)
-        {            
+        static void MakeMove(ref string[,] board, ref bool[] castlingRights, string move, bool whiteToMove, bool fromMemory, bool enPas)
+        {
+            if (fromMemory)
+            {
+                string turnStr = "-";
+                if (whiteToMove)
+                {
+                    turnStr = "+";
+                }
+                for (int i = 1; i < 8; i+=6)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (board[i, j] == "ep"+turnStr)
+                        {
+                            board[i, j] = null;
+                        }
+                    }
+                }
+            }
             if (move.Contains("Castle"))
             {
                 int castleX = 0;
@@ -670,7 +706,7 @@ namespace chess
                         {
                             board[Convert.ToInt32(move[0].ToString()) + 1, Convert.ToInt32(move[1].ToString())] = "ep-";
                         }
-                    }                   
+                    }
                 }
                 if (board[Convert.ToInt32(move[2].ToString()), Convert.ToInt32(move[3].ToString())] != null)
                 {
@@ -680,7 +716,7 @@ namespace chess
                         {
                             board[Convert.ToInt32(move[2].ToString()) + 1, Convert.ToInt32(move[3].ToString())] = null;
                         }
-                        else
+                        else if (!whiteToMove && board[Convert.ToInt32(move[2].ToString()) - 1, Convert.ToInt32(move[3].ToString())].Contains("+"))
                         {
                             board[Convert.ToInt32(move[2].ToString()) - 1, Convert.ToInt32(move[3].ToString())] = null;
                         }
@@ -768,6 +804,17 @@ namespace chess
                             }
                         }
                     }
+                }
+            }
+            if (enPas)
+            {
+                if (whiteToMove && board[Convert.ToInt32(move[2].ToString()) + 1, Convert.ToInt32(move[3].ToString())].Contains("-"))
+                {
+                    board[Convert.ToInt32(move[2].ToString()) + 1, Convert.ToInt32(move[3].ToString())] = null;
+                }
+                else if (!whiteToMove && board[Convert.ToInt32(move[2].ToString()) - 1, Convert.ToInt32(move[3].ToString())].Contains("+"))
+                {
+                    board[Convert.ToInt32(move[2].ToString()) - 1, Convert.ToInt32(move[3].ToString())] = null;
                 }
             }
         }
@@ -1151,7 +1198,7 @@ namespace chess
                 bool same = true;
                 if (i > -1)
                 {
-                    MakeMove(ref pastBoard, ref pastCastle, coordMemory[i], pastToMove, true);
+                    MakeMove(ref pastBoard, ref pastCastle, coordMemory[i], pastToMove, true, false);
                     if (pastToMove)
                     {
                         pastToMove = false;

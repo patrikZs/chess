@@ -1,0 +1,31 @@
+itt lehet változtatni a bábuk kinézetét (ezt a sort ne töröld)
+K
+    ╬    
+    █    
+   |█|   
+   ▀▀▀   
+Q
+   www   
+    █    
+   |█|   
+   ▀▀▀   
+R
+   «=»   
+   |█|   
+   |█|   
+   ▀▀▀   
+B
+    ▄    
+   |█|   
+    █    
+   ▀▀▀   
+N
+    ▄▄   
+   ██▀§  
+   |█    
+   ▀▀▀   
+p
+         
+   (█)   
+    █    
+   ▀▀▀   

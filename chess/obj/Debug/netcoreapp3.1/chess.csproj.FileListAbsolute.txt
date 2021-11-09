@@ -1,0 +1,14 @@
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.exe
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.deps.json
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.runtimeconfig.json
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.runtimeconfig.dev.json
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.dll
+C:\Users\Patrik\source\repos\chess\chess\bin\Debug\netcoreapp3.1\chess.pdb
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.csproj.CoreCompileInputs.cache
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.AssemblyInfoInputs.cache
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.AssemblyInfo.cs
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.dll
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.pdb
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.genruntimeconfig.cache
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.csproj.AssemblyReference.cache
+C:\Users\Patrik\source\repos\chess\chess\obj\Debug\netcoreapp3.1\chess.GeneratedMSBuildEditorConfig.editorconfig
